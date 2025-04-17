@@ -8,6 +8,11 @@ app.use(express.json());
 // In-memory array to store todos
 let todos = [];
 
+// GET: Root endpoint to avoid "Cannot GET /" error
+app.get('/', (req, res) => {
+    res.json({ message: 'Welcome to the To-Do List API', endpoints: ['/todos'] });
+});
+
 // GET: Retrieve all todos
 app.get('/todos', (req, res) => {
     res.json(todos);
@@ -44,5 +49,6 @@ app.delete('/todos/:id', (req, res) => {
     res.status(204).send();
 });
 
-// Start the server on port 3000
-app.listen(3000, () => console.log('Server running on port 3000'));
+// Start the server on port 3000 (or environment port for Render)
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
